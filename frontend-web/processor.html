@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="processor.sourcingTitle">Sourcing</title>
+    
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="processor.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+
+    <style>
+        /* Fix for 5-column nav */
+        body.app-shell .app-nav {
+            grid-template-columns: repeat(5, 1fr);
+        }
+        body.app-shell .app-nav button {
+            font-size: 0.7rem;
+            padding: 0.7rem 0.2rem;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+
+<body class="app-shell bg-gray-50">
+
+    <header class="app-header bg-white border-b border-gray-200 px-4 py-3">
+        <div class="flex justify-between items-center">
+            <hgroup class="mb-0">
+                <h3 id="app-title" class="text-lg font-semibold text-primary mb-0" data-i18n="processor.sourcingTitle" data-current-page-key="processor.sourcingTitle">Sourcing</h3>
+                <p class="text-sm text-gray-500 mb-0">
+                    <span data-i18n="consumer.welcome">Welcome,</span> <strong id="processor-name">Loading...</strong>
+                </p>
+            </hgroup>
+            <div class="language-switcher flex items-center space-x-1 border border-gray-300 rounded-full px-1 py-0.5">
+                <button data-lang="en" onclick="setLanguage('en')" class="px-2 py-0.5 rounded-full text-xs font-medium text-gray-600 hover:bg-gray-100 focus:outline-none active">EN</button>
+                <button data-lang="gu" onclick="setLanguage('gu')" class="px-2 py-0.5 rounded-full text-xs font-medium text-gray-600 hover:bg-gray-100 focus:outline-none">GU</button>
+                <button data-lang="hi" onclick="setLanguage('hi')" class="px-2 py-0.5 rounded-full text-xs font-medium text-gray-600 hover:bg-gray-100 focus:outline-none">HI</button>
+            </div>
+        </div>
+    </header>
+    
+    <main class="app-main">
+        <section id="page-sourcing" class="app-page active p-4">
+            
+            <div class="search-filter-bar">
+                <input type="search" id="search" name="search" data-i18n="[placeholder]processor.searchPlaceholder" placeholder="Search bulk 'Ragi', 'Jowar'...">
+                <button class="secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18a7.9 7.9 0 0 1-5-2.3C3.2 14.2 2 11.7 2 9.4a7.4 7.4 0 0 1 1-3.8A8.2 8.2 0 0 1 9.4 2a8.2 8.2 0 0 1 6.2 2.6A7.4 7.4 0 0 1 16.6 9c0 2.3-.9 4.8-2.3 6.2a8 8 0 0 1-4.3 2.8Z"/><path d="M16.6 9H22v5"/><path d="m22 9-1.3 1.3"/></svg>
+                </button>
+            </div>
+
+            <hgroup>
+                <h4 data-i18n="processor.availableRawGoods">Available Raw Goods</h4>
+            </hgroup>
+            
+            <div id="product-list-b2b" class="space-y-4">
+                </div>
+        </section>
+
+        <section id="page-inventory" class="app-page p-4">
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mb-2" data-i18n="processor.inventoryTitle">My Raw Material Inventory</h4>
+            <p class="text-sm text-gray-600 mb-4" data-i18n="processor.inventorySubtitle">Confirmed raw goods, available to use for processed products.</p>
+            
+            <div id="inventory-list" class="space-y-4">
+                </div>
+        </section>
+
+        <section id="page-addproduct" class="app-page p-4">
+             <form id="processed-product-form" class="card bg-white p-4 rounded-lg shadow-sm border border-gray-200 space-y-4">
+                <hgroup>
+                    <h4 class="text-base font-semibold text-gray-800" data-i18n="processor.addProductTitle">Add New Processed Product</h4>
+                </hgroup>
+
+                <div>
+                    <label for="proc-source-product" data-i18n="processor.sourceMaterialLabel">Source Material (from My Purchases)</label>
+                    <select id="proc-source-product">
+                        <option value="" data-i18n="processor.noneSource">None (or multiple sources)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="proc-product-name" data-i18n="processor.productNameLabel">Product Name</label>
+                    <input type="text" id="proc-product-name" data-i18n="[placeholder]processor.productNamePlaceholder" placeholder="e.g., Organic Ragi Flour (1kg)" required>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="proc-quantity" data-i18n="processor.quantityUnitsLabel">Available Quantity (units)</label>
+                        <input type="number" id="proc-quantity" data-i18n="[placeholder]processor.quantityPlaceholder" placeholder="e.g., 500" required>
+                    </div>
+                    <div>
+                        <label for="proc-unit" data-i18n="processor.unitLabel">Unit</label>
+                        <input type="text" id="proc-unit" data-i18n="[placeholder]processor.unitPlaceholder" placeholder="e.g., kg" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="proc-price" data-i18n="processor.pricePerUnitLabel">Price (per unit)</label>
+                    <input type="number" id="proc-price" data-i18n="[placeholder]processor.pricePlaceholder" placeholder="e.g., 90" required>
+                </div>
+                
+                <button type="button" id="proc-list-btn" class="primary w-full">
+                    <span data-i18n="processor.listButton">1. List Processed Product</span>
+                </button>
+                <button type="button" id="proc-blockchain-btn" class="secondary w-full" disabled>
+                    <span data-i18n="processor.secureButton">2. Secure on Blockchain</span>
+                </button>
+                
+                <div id="proc-submit-status" class="mt-4 text-center text-sm">
+                    </div>
+            </form>
+
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mt-6 mb-2" data-i18n="processor.myListedProducts">Your Listed Products</h4>
+            <div id="my-products-list" class="space-y-3">
+                </div>
+
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mt-6 mb-2" data-i18n="processor.incomingOrders">Incoming Orders (Your Sales)</h4>
+            <div id="incoming-orders-list" class="space-y-4">
+                </div>
+            
+        </section>
+
+        <section id="page-orders" class="app-page p-4">
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mb-2" data-i18n="processor.ordersTitle">My Bulk Purchase Orders</h4>
+            <p class="text-sm text-gray-600 mb-4" data-i18n="processor.ordersSubtitle">Track your raw material purchases from farmers.</p>
+            
+            <div id="my-bulk-orders-list" class="space-y-4">
+                </div>
+        </section>
+
+        <section id="page-profile" class="app-page p-4">
+            
+            <div class="payout-summary bg-gradient-to-br from-primary to-primary-dark text-white p-6 rounded-lg shadow-lg text-center mb-6">
+                <p class="text-sm opacity-80 mb-1" data-i18n="processor.walletBalance">Company Wallet Balance</p>
+                <h2 id="wallet-balance-display" class="text-3xl font-bold mb-4">₹...</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="add-money-btn" class="bg-white text-primary hover:bg-gray-100 transition-colors">
+                        <span data-i18n="consumer.addMoney">+ Add Money</span>
+                    </button>
+                    <button id="withdraw-btn" class="bg-white/30 text-white hover:bg-white/40 transition-colors">
+                        <span data-i18n="farmer.withdrawToBank">Withdraw</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-6">
+                <h4 id="profile-name" class="text-lg font-semibold mb-1">Loading...</h4>
+                <p id="profile-email" class="text-sm text-gray-500 mb-4">...</p>
+                
+                <dl class="profile-details">
+                    <dt data-i18n="processor.companyAddress">Company Address</dt>
+                    <dd>456, GIDC, Naroda, Ahmedabad, Gujarat, 382330</dd>
+                    <dt data-i18n="processor.gstin">GSTIN</dt>
+                    <dd>24ABCDE1234F1Z5</dd>
+                </dl>
+                <button class="secondary" style="width: 100%;" data-i18n="consumer.editProfile">Edit Profile</button>
+            </div>
+
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mb-2" data-i18n="farmer.transactionHistory">Transaction History</h4>
+            <div id="transaction-history-list" class="card transaction-list bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                </div>
+
+        </section>
+    </main>
+
+    <nav class="app-nav grid grid-cols-5 border-t border-gray-200 bg-white">
+        <button id="nav-sourcing" class="active" onclick="showPage('sourcing')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18a7.9 7.9 0 0 1-5-2.3C3.2 14.2 2 11.7 2 9.4a7.4 7.4 0 0 1 1-3.8A8.2 8.2 0 0 1 9.4 2a8.2 8.2 0 0 1 6.2 2.6A7.4 7.4 0 0 1 16.6 9c0 2.3-.9 4.8-2.3 6.2a8 8 0 0 1-4.3 2.8Z"/><path d="M16.6 9H22v5"/><path d="m22 9-1.3 1.3"/></svg>
+            <span data-i18n="processor.navSourcing">Sourcing</span>
+        </button>
+        
+        <button id="nav-inventory" onclick="showPage('inventory')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-10c0-1.1-.9-2-2-2H2Z"/><path d="M14 1.5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-10c0-1.1-.9-2-2-2H14Z"/></svg>
+            <span data-i18n="processor.navInventory">Inventory</span>
+        </button>
+        
+        <button id="nav-addproduct" onclick="showPage('addproduct')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            <span data-i18n="processor.navAddProduct">Add Product</span>
+        </button>
+
+        <button id="nav-orders" onclick="showPage('orders')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M12 11v6"/><path d="m8 14 4 4 4-4"/></svg>
+            <span data-i18n="processor.navOrders">Orders</span>
+        </button>
+        
+        <button id="nav-profile" onclick="showPage('profile')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span data-i18n="processor.navProfile">Profile</span>
+        </button>
+    </nav>
+    
+    <script src="i18n.js" defer></script> 
+    <script src="app.js" defer></script>
+    <script src="processor.js" defer></script>
+</body>
+</html>

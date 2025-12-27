@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="appName">MilletChain</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="farmer.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="app-shell bg-gray-50">
+    <header class="app-header bg-white border-b border-gray-200 px-4 py-3">
+        <div class="flex justify-between items-center">
+            <hgroup class="mb-0">
+                <h3 id="app-title" class="text-lg font-semibold text-primary mb-0" data-current-page-key="farmer.dashboardTitle" data-i18n="farmer.dashboardTitle">Dashboard</h3>
+                <p class="text-sm text-gray-500 mb-0">
+                    <span data-i18n="farmer.welcome">Welcome back</span>,
+                    <strong id="farmer-name">Loading...</strong>
+                </p>
+            </hgroup>
+            <div class="language-switcher flex items-center space-x-1 border border-gray-300 rounded-full px-1 py-0.5">
+                <button data-lang="en" onclick="setLanguage('en')" class="px-2 py-0.5 rounded-full text-xs font-medium text-gray-600 hover:bg-gray-100 focus:outline-none active">EN</button>
+                <button data-lang="gu" onclick="setLanguage('gu')" class="px-2 py-0.5 rounded-full text-xs font-medium text-gray-600 hover:bg-gray-100 focus:outline-none">GU</button>
+                <button data-lang="hi" onclick="setLanguage('hi')" class="px-2 py-0.5 rounded-full text-xs font-medium text-gray-600 hover:bg-gray-100 focus:outline-none">HI</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-main flex-grow overflow-hidden">
+
+        <section id="page-dashboard" class="app-page active p-4">
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mb-2" data-i18n="farmer.atAGlance">At a Glance</h4>
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                 <div class="stat-card bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center">
+                    <svg class="icon mx-auto mb-2 h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <h4 class="text-xl font-bold text-primary mb-0" id="dashboard-total-payouts">--</h4>
+                    <p class="text-xs text-gray-500 mb-0" data-i18n="farmer.totalPayouts">Total Payouts</p>
+                </div>
+                <div class="stat-card bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center">
+                    <svg class="icon mx-auto mb-2 h-8 w-8 text-yellow-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="m12 12 4 10 4-10"/><path d="M16 12h4"/></svg>
+                    <h4 class="text-xl font-bold text-yellow-600 mb-0" id="dashboard-pending-orders">--</h4>
+                    <p class="text-xs text-gray-500 mb-0" data-i18n="farmer.pendingOrders">Pending Orders</p>
+                </div>
+            </div>
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mb-2" data-i18n="farmer.quickActions">Quick Actions</h4>
+            <button onclick="showPage('add', 'farmer.addProductTitle')" class="primary w-full mb-3" data-i18n="farmer.addProductBatch"> Add New Product Batch </button>
+            <button onclick="showPage('orders', 'farmer.manageOrdersTitle')" class="secondary w-full" data-i18n="farmer.viewPendingOrders"> View Pending Orders </button>
+
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mt-6 mb-2" data-i18n="farmer.myListedProducts">My Listed Products</h4>
+            <div id="farmer-products-list" class="space-y-3">
+                <div class="empty-state text-center p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <svg class="mx-auto h-10 w-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12.75h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" /></svg>
+                    <p class="text-sm font-medium text-gray-600 mt-2" data-i18n="farmer.noProductsListed">No Products Listed</p>
+                    <p class="text-xs text-gray-500" data-i18n="farmer.tapAddProductToStart">Tap "Add Product" to get started.</p>
+                </div>
+            </div>
+
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mt-6 mb-2" data-i18n="farmer.recentActivity">Recent Activity</h4>
+            <div id="farmer-activity-list" class="card transaction-list bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                <p class="text-center text-gray-500 text-sm py-4" data-i18n="farmer.noRecentActivity">No recent activity</p>
+            </div>
+        </section>
+
+        <section id="page-add" class="app-page p-4">
+            <form id="product-form" class="space-y-4">
+                 <div class="card bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <label for="product-name" data-i18n="farmer.productDetails">Product Details</label>
+                    <select id="product-name" required>
+                        <option value="" disabled selected data-i18n="farmer.chooseMillet">Choose a millet...</option>
+                        <option value="Bajra" data-i18n="farmer.bajra">Bajra (Pearl Millet)</option>
+                        <option value="Jowar" data-i18n="farmer.jowar">Jowar (Sorghum)</option>
+                        <option value="Ragi" data-i18n="farmer.ragi">Ragi (Finger Millet)</option>
+                    </select>
+                    <label for="quantity" class="mt-4" data-i18n="farmer.quantityQuintals">Quantity (in Quintals)</label>
+                    <input type="number" id="quantity" name="quantity" required data-i18n="[placeholder]farmer.eg10" placeholder="e.g., 10">
+                    <label for="location" class="mt-4" data-i18n="farmer.yourDistrict">Your District</label>
+                    <select id="location" name="location" required>
+                        <option value="" disabled selected data-i18n="farmer.chooseLocation">Choose your location...</option>
+                        <option value="Ahmedabad" data-i18n="farmer.ahmedabad">Ahmedabad</option>
+                        <option value="Gandhinagar" data-i18n="farmer.gandhinagar">Gandhinagar</option>
+                    </select>
+                </div>
+                <div class="card bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <label data-i18n="farmer.productPhoto">Product Photo</label>
+                    <div class="image-upload-box border-2 border-dashed border-gray-300 rounded-lg p-6 text-center bg-gray-50 cursor-pointer hover:border-primary hover:bg-primary-light transition-colors" id="image-upload-box" data-original-content='<svg class="mx-auto h-10 w-10 text-primary mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="font-medium text-gray-700 mb-0" data-i18n="farmer.tapToUploadPhoto">Tap to Upload Photo</p><small class="text-xs text-gray-500" data-i18n="farmer.photoBuildsTrust">A real photo builds trust.</small>'>
+                        <svg class="mx-auto h-10 w-10 text-primary mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                        <p class="font-medium text-gray-700 mb-0" data-i18n="farmer.tapToUploadPhoto">Tap to Upload Photo</p>
+                        <small class="text-xs text-gray-500" data-i18n="farmer.photoBuildsTrust">A real photo builds trust.</small>
+                    </div>
+                    <input type="file" id="product-image" accept="image/*" class="hidden">
+                </div>
+                <div class="card bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <label data-i18n="farmer.qualityCertificate">Quality Certificate (Optional)</label>
+                    <div class="image-upload-box border-2 border-dashed border-gray-300 rounded-lg p-6 text-center bg-gray-50 cursor-pointer hover:border-primary hover:bg-primary-light transition-colors" id="cert-upload-box" data-original-content='<svg class="mx-auto h-10 w-10 text-primary mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m10.4 16.6 3-3 3 3"/><path d="M13.4 13.6V20"/></svg><p class="font-medium text-gray-700 mb-0" data-i18n="farmer.tapToUploadCert">Tap to Upload Certificate</p><small class="text-xs text-gray-500" data-i18n="farmer.certExample">e.g., Organic, FSSAI (PDF/Image)</small>'>
+                       <svg class="mx-auto h-10 w-10 text-primary mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m10.4 16.6 3-3 3 3"/><path d="M13.4 13.6V20"/></svg>
+                        <p class="font-medium text-gray-700 mb-0" data-i18n="farmer.tapToUploadCert">Tap to Upload Certificate</p>
+                        <small class="text-xs text-gray-500" data-i18n="farmer.certExample">e.g., Organic, FSSAI (PDF/Image)</small>
+                    </div>
+                    <input type="file" id="product-cert" accept="application/pdf,image/*" class="hidden">
+                </div>
+                <div class="card bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <label data-i18n="farmer.aiPriceSuggestion">AI Price Suggestion</label>
+                    <button type="button" id="price-btn" class="secondary w-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.28 9.03a5 5 0 1 0-5.56 5.56l-1.3 1.3a.5.5 0 0 0 0 .7l.6.6a.5.5 0 0 0 .7 0l1.3-1.3a5 5 0 0 0 5.56-5.56Z"/><path d="m16.03 10.28 4.24-4.24"/><path d="m11.72 14.56 1.3-1.3"/><path d="m10.28 16.03-4.24 4.24"/><path d="m14.56 11.72-1.3 1.3"/><path d="m3.97 3.97 4.24 4.24"/></svg>
+                        <span data-i18n="farmer.getAiPriceSuggestion">Get AI Price Suggestion</span>
+                    </button>
+                    <div id="ai-price-result" class="mt-4 p-3 bg-primary-light rounded-md text-center hidden"></div>
+                </div>
+                <div class="card bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <label for="final-price" data-i18n="farmer.finalListingPrice">Final Listing Price (per Quintal)</label>
+                    <input type="number" id="final-price" name="final-price" required data-i18n="[placeholder]farmer.enterFinalPrice" placeholder="Enter your final price">
+                </div>
+                <button type="button" id="list-btn" class="primary w-full" data-i18n="farmer.listProductMarketplace"> 1. List Product on Marketplace </button>
+                <button type="button" id="blockchain-btn" class="secondary w-full mt-3" disabled data-i18n="farmer.secureOnBlockchain"> 2. Secure on Blockchain (Connect Wallet) </button>
+                <div id="submit-status" class="mt-4 text-center text-sm"></div>
+            </form>
+        </section>
+
+        <section id="page-orders" class="app-page p-4 space-y-4">
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mb-2" data-i18n="farmer.ordersReceived">Orders Received</h4>
+            <div id="farmer-orders-list" class="space-y-4">
+                 <div class="empty-state text-center p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <svg class="mx-auto h-10 w-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.22-.1.447-.1.684 0 .414.156.742.388 1.002.23.26.54.38.868.38.327 0 .637-.12.868-.38.23.26.388.588.388-1.002 0-.237-.035-.464-.1-.684a3.003 3.003 0 0 0-2.116 0ZM4.877 19.164l-.002-.003-.002-.003A2.25 2.25 0 0 1 3 17.25V9.75c0-.414.156.742.388-1.002.23-.26.54-.38.868-.38.327 0 .637-.12.868.38.23.26.388.588.388-1.002V17.25c0 .414-.156.742-.388 1.002a1.12 1.12 0 0 1-.868.38c-.327 0-.637-.12-.868-.38a1.12 1.12 0 0 1-.388-1.002v-.002ZM11.248 19.164l-.002-.003-.002-.003a2.25 2.25 0 0 1-1.873-1.912V9.75c0-.414.156.742.388-1.002.23-.26.54-.38.868-.38.327 0 .637-.12.868.38.23.26.388.588.388-1.002V17.25c0 .414-.156.742-.388 1.002a1.12 1.12 0 0 1-.868.38c-.327 0-.637-.12-.868-.38a1.12 1.12 0 0 1-.388-1.002v-.002ZM17.618 19.164l-.002-.003-.002-.003a2.25 2.25 0 0 1-1.873-1.912V9.75c0-.414.156.742.388-1.002.23-.26.54-.38.868-.38.327 0 .637-.12.868.38.23.26.388.588.388-1.002V17.25c0 .414-.156.742-.388 1.002a1.12 1.12 0 0 1-.868.38c-.327 0-.637-.12-.868-.38a1.12 1.12 0 0 1-.388-1.002v-.002Z" /></svg>
+                    <p class="text-sm font-medium text-gray-600 mt-2" data-i18n="farmer.noOrdersReceived">No Orders Received Yet</p>
+                    <p class="text-xs text-gray-500" data-i18n="farmer.ordersWillAppearHere">New orders from consumers will appear here.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-payouts" class="app-page p-4">
+         <div class="payout-summary p-6 rounded-lg shadow-lg text-center mb-6">
+    <p class="text-sm opacity-80 mb-1 text-white/80" data-i18n="farmer.availablePayout">Available for Payout</p>
+    <h2 id="available-payout-amount" class="text-3xl font-bold mb-4 text-white">₹0.00</h2>
+    <button id="withdraw-btn" class="bg-white text-primary hover:bg-gray-100 transition-colors w-full">
+        <span data-i18n="farmer.withdrawToBank">Withdraw to Bank</span>
+    </button>
+</div>
+
+
+            <h4 class="text-sm font-semibold text-gray-500 uppercase mb-2" data-i18n="farmer.transactionHistory">Transaction History</h4>
+
+            <div id="payout-history-list" class="card transaction-list bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                 <div class="empty-state text-center py-4">
+                    <svg class="mx-auto h-10 w-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.768 0-1.536.219-2.121.659-.922.688-.922 1.81 0 2.498l.879.659Z" /></svg>
+                    <p class="text-sm font-medium text-gray-600 mt-2" data-i18n="farmer.noTransactions">No Transaction History</p>
+                    <p class="text-xs text-gray-500" data-i18n="farmer.payoutsWillAppearHere">Completed payouts will appear here.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <nav class="app-nav grid grid-cols-4 border-t border-gray-200 bg-white">
+        <button id="nav-dashboard" class="active" onclick="showPage('dashboard', 'farmer.dashboardTitle')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span data-i18n="farmer.navDashboard">Dashboard</span>
+        </button>
+        <button id="nav-add" onclick="showPage('add', 'farmer.addProductTitle')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            <span data-i18n="farmer.navAddProduct">Add Product</span>
+        </button>
+        <button id="nav-orders" onclick="showPage('orders', 'farmer.manageOrdersTitle')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v2"/><path d="M21 14v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><rect width="20" height="6" x="2" y="10"/></svg>
+            <span data-i18n="farmer.navOrders">Orders</span>
+        </button>
+        <button id="nav-payouts" onclick="showPage('payouts', 'farmer.myPayoutsTitle')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1-.9-2-2-2Z"/></svg>
+            <span data-i18n="farmer.navPayouts">Payouts</span>
+        </button>
+    </nav>
+
+    <script src="i18n.js" defer></script>
+    <script src="app.js" defer></script>
+    <script src="farmer.js" defer></script>
+</body>
+</html>

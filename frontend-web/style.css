@@ -1,0 +1,342 @@
+/* ==============================
+  1. SETUP & FONTS
+  ==============================
+*/
+/* Import the "Inter" font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Use Pico.css for the base resets and layout */
+@import "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css";
+
+:root {
+  /* Define our custom colors */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --primary: #008060; /* A strong, modern green */
+  --primary-hover: #006b4f;
+  --primary-focus: rgba(0, 128, 96, 0.25);
+  --primary-inverse: #ffffff;
+  --primary-light: #f0fdfa; /* A very light green for backgrounds */
+
+  --card-background-color: #ffffff;
+  --card-sectioning-background-color: #f8f9fa;
+  --card-border: #e9ecef;
+  --app-shell-bg: #f8f9fa;
+  --text-color: #212529;
+  --muted-color: #6c757d;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --button-shadow: 0 4px 10px rgba(0, 128, 96, 0.2);
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background: var(--app-shell-bg);
+}
+
+/* ==============================
+  2. APP-LIKE LAYOUT
+  ==============================
+*/
+/* The "Phone" Shell */
+body.app-shell {
+    max-width: 520px;
+    margin: auto;
+    background: #e9ecef;
+    border: 16px solid #111;
+    border-radius: 36px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    margin-top: 2vh;
+    height: 94vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* App Header (Dynamic Title) */
+.app-header {
+    background: var(--card-background-color);
+    border-bottom: 1px solid var(--card-border);
+    padding: 1rem 1.5rem;
+    order: 1;
+    flex-shrink: 0;
+}
+.app-header hgroup {
+    margin: 0;
+}
+.app-header hgroup p {
+    margin: 0;
+    color: var(--muted-color);
+}
+
+/* Main Content (Scrollable) */
+main.app-main {
+    padding: 1.5rem;
+    order: 2;
+    overflow-y: auto;
+    flex-grow: 1;
+    background: var(--card-sectioning-background-color);
+}
+
+/* Page switching logic */
+.app-page {
+    display: none;
+}
+.app-page.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==============================
+  3. APP-LIKE NAVIGATION (STICKY BOTTOM TAB BAR)
+  ==============================
+*/
+.app-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: var(--card-background-color);
+    border-top: 1px solid var(--card-border);
+    padding: 0.5rem 0;
+    order: 3;
+    flex-shrink: 0;
+}
+.app-nav button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    font-size: 0.8rem; /* Smaller text */
+    font-weight: 600; /* Bolder */
+    text-align: center;
+    color: var(--muted-color);
+    cursor: pointer;
+    border-radius: 8px;
+    width: 24%;
+    line-height: 1.3;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.app-nav button svg {
+    display: block;
+    margin: 0 auto 0.25rem auto;
+    width: 24px;
+    height: 24px;
+    stroke: var(--muted-color);
+    transition: stroke 0.2s ease;
+}
+.app-nav button:hover {
+    background: var(--card-sectioning-background-color);
+}
+.app-nav button.active {
+    color: var(--primary);
+    background: var(--primary-light);
+}
+.app-nav button.active svg {
+    stroke: var(--primary);
+}
+
+/* ==============================
+  4. "BEST BUTTONS"
+  ==============================
+*/
+button.primary,
+input[type="submit"].primary,
+a[role="button"].primary {
+    --pico-primary: var(--primary);
+    --pico-primary-hover: var(--primary-hover);
+    --pico-primary-focus: var(--primary-focus);
+    --pico-primary-inverse: var(--primary-inverse);
+    
+    font-weight: 600;
+    box-shadow: var(--button-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 128, 96, 0.3);
+}
+
+/* ==============================
+  5. "BEST UI" (Dashboard Components)
+  ==============================
+*/
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin: 1rem 0;
+}
+.stat-card {
+    background: var(--card-background-color);
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    text-align: center;
+}
+.stat-card .icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+.stat-card h4 {
+    margin: 0.5rem 0 0.25rem 0;
+    color: var(--primary);
+}
+.stat-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted-color);
+    font-weight: 500;
+}
+
+.order-card, .payout-card, .product-card {
+    background: var(--card-background-color);
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 1.25rem;
+    overflow: hidden; /* For images */
+}
+.order-card article, .payout-card article, .product-card article {
+    margin: 0;
+    padding: 1.25rem;
+    border: none;
+    box-shadow: none;
+}
+.order-card hgroup, .payout-card hgroup {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.order-card hgroup h5, .payout-card hgroup h5 {
+    margin: 0;
+}
+.order-card hgroup p, .payout-card hgroup p {
+    margin: 0;
+    color: var(--muted-color);
+    font-size: 0.9rem;
+}
+.order-card footer, .payout-card footer {
+    padding-top: 1rem;
+    border-top: 1px solid var(--card-border);
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+.product-card hgroup {
+    margin-bottom: 0.5rem;
+}
+.product-card hgroup h5 { margin-bottom: 0.25rem; }
+.product-card hgroup p { margin: 0; font-size: 0.9rem; }
+.product-card > p { margin: 0 1.25rem 1rem 1.25rem; font-weight: 600; font-size: 1.1rem; }
+.product-card footer {
+    padding: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    gap: 0.5rem;
+}
+.product-card footer a[role="button"] {
+    flex-grow: 1;
+}
+
+/* Badges */
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.badge.pending { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+.badge.shipped { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge.credited { background: var(--primary-light); color: var(--primary-hover); border: 1px solid #6ee7b7; }
+.badge.debited { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+/* Upload Box */
+.upload-box {
+    border: 2px dashed var(--card-border);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    background: var(--card-sectioning-background-color);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.upload-box:hover {
+    background: #ffffff;
+    border-color: var(--primary);
+}
+.upload-box input[type="file"] {
+    display: none;
+}
+.upload-box p { margin: 0; font-weight: 600; }
+.upload-box small { color: var(--muted-color); }
+.upload-box svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+/* ==============================
+  6. BLOCKCHAIN TIMELINE (from trace.html)
+  ==============================
+*/
+.timeline {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+}
+.timeline-item {
+    padding-left: 3rem;
+    padding-bottom: 1.5rem;
+    border-left: 3px solid var(--card-border);
+    position: relative;
+}
+/* The icon/emoji bullet */
+.timeline-item::before {
+    content: attr(data-icon);
+    position: absolute;
+    left: -1.75rem; /* Center the icon */
+    top: -0.25rem;
+    font-size: 2rem;
+    background: var(--card-sectioning-background-color);
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--card-border);
+}
+.timeline-item:first-child { border-left-color: var(--primary); }
+.timeline-item:first-child::before { border-color: var(--primary); }
+
+.timeline-item h5 { margin: 0.25rem 0; }
+.timeline-item p { margin: 0.25rem 0; font-size: 0.9rem; }
+.timeline-item small { color: var(--muted-color); font-size: 0.85rem; }
+
+/* Make external link look good */
+.etherscan-link {
+    font-weight: 600;
+    text-decoration: none;
+}
+.etherscan-link svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    margin-left: 0.25rem;
+}
+

@@ -1,0 +1,308 @@
+/* ==============================
+   FARMER APP STYLES (Enhanced UI)
+   ============================== */
+
+/* --- General Enhancements --- */
+.app-page {
+    /* Add slightly more padding */
+    padding: 1.5rem;
+}
+
+h4.uppercase { /* Section headers */
+    font-size: 0.75rem; /* Slightly smaller */
+    font-weight: 700; /* Bolder */
+    color: var(--text-light); /* Lighter gray */
+    letter-spacing: 0.05em; /* Add some letter spacing */
+    margin-bottom: 1rem; /* More space below header */
+    margin-top: 2rem; /* More space above header */
+}
+h4.uppercase:first-of-type {
+    margin-top: 0; /* No top margin for the very first header */
+}
+
+/* --- Dashboard Page (`page-dashboard`) --- */
+.stat-card {
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg); /* Slightly larger radius */
+    box-shadow: var(--shadow-md);
+    padding: 1.25rem 1rem; /* More vertical padding */
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+.stat-card .icon {
+    height: 36px; /* Larger icon */
+    width: 36px;
+    margin-bottom: 0.75rem;
+    stroke-width: 1.5; /* Slightly thinner lines */
+}
+.stat-card h4 {
+    font-size: 1.75rem; /* Larger number */
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+}
+.stat-card p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 0;
+}
+
+/* Quick Action Buttons */
+#page-dashboard .primary,
+#page-dashboard .secondary {
+    padding: 0.9rem 1.5rem; /* Standard button size */
+    font-size: 0.95rem;
+}
+
+/* Product list on dashboard */
+#farmer-products-list .product-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    background-color: var(--background-card);
+    border-radius: var(--radius-md);
+    transition: box-shadow 0.2s ease;
+}
+#farmer-products-list .product-card:hover {
+    box-shadow: var(--shadow-md);
+}
+#farmer-products-list .product-card img {
+    width: 50px; /* Slightly smaller image */
+    height: 50px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+}
+#farmer-products-list .product-card .flex-grow {
+    min-width: 0;
+}
+#farmer-products-list .product-card h5 {
+    font-size: 0.95rem; /* Adjust size */
+    margin-bottom: 0.1rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#farmer-products-list .product-card p {
+    font-size: 0.8rem; /* Smaller details */
+    color: var(--text-light);
+    margin-bottom: 0;
+}
+#farmer-products-list .product-card .badge {
+    margin-left: auto; /* Push badge to the right */
+    padding: 0.2rem 0.5rem; /* Smaller badge padding */
+    font-size: 0.7rem; /* Smaller badge text */
+}
+
+
+/* --- Add Product Page (`page-add`) --- */
+#page-add .card {
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm); /* Lighter shadow for form cards */
+}
+
+/* Image Upload Box enhanced */
+.image-upload-box {
+    border: 2px dashed #D1D5DB; /* Tailwind gray-300 */
+    background-color: #F9FAFB; /* Tailwind gray-50 */
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.image-upload-box:hover {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+}
+.image-upload-box svg {
+    height: 36px;
+    width: 36px;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+.image-upload-box p { /* Title */
+    font-weight: 600;
+    margin-bottom: 0.1rem;
+    color: var(--text-secondary);
+}
+.image-upload-box small { /* Subtitle */
+    color: var(--text-light);
+    font-size: 0.8rem;
+}
+/* Style for file selected state */
+.image-upload-box.has-file { /* Use JS to add this class */
+    border-color: var(--secondary);
+    border-style: solid;
+    background-color: #F0FDF4; /* Light green */
+}
+.image-upload-box.has-file svg {
+    color: var(--secondary); /* Green checkmark or icon */
+}
+.image-upload-box.has-file p {
+     color: #047857; /* Darker green text */
+}
+
+
+/* AI Price Result Box */
+#ai-price-result {
+    background-color: #E0F2FE; /* Tailwind sky-100 */
+    border: 1px solid #7DD3FC; /* Tailwind sky-300 */
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+#ai-price-result p {
+    margin-bottom: 0.2rem;
+    color: #0C4A6E; /* Tailwind sky-800 */
+    font-weight: 500;
+}
+#ai-price-result strong {
+    color: #0369A1; /* Tailwind sky-700 */
+    font-weight: 700;
+    font-size: 1.1em;
+}
+#ai-price-result small {
+    color: #38BDF8; /* Tailwind sky-600 */
+    font-size: 0.8rem;
+}
+
+/* Action Buttons */
+#list-btn, #blockchain-btn {
+     padding: 0.9rem 1.5rem; /* Standard button size */
+     font-size: 0.95rem;
+}
+#blockchain-btn:disabled {
+    background-color: #E5E7EB; /* Lighter gray when disabled */
+    border-color: #D1D5DB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+#blockchain-btn:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+
+/* --- Orders Page (`page-orders`) --- */
+#farmer-orders-list .order-card {
+    transition: box-shadow 0.2s ease;
+}
+#farmer-orders-list .order-card:hover {
+    box-shadow: var(--shadow-lg); /* More pronounced shadow on hover */
+}
+#farmer-orders-list .order-card .p-4 {
+    padding: 1.25rem; /* Increase padding slightly */
+}
+#farmer-orders-list .order-card img {
+    width: 56px; /* Slightly smaller image */
+    height: 56px;
+}
+#farmer-orders-list .order-card h5 {
+    font-size: 1.05rem; /* Slightly larger title */
+    font-weight: 600;
+}
+#farmer-orders-list .order-card p {
+    font-size: 0.9rem; /* Slightly larger text */
+}
+#farmer-orders-list .order-card .card-footer {
+     padding: 1rem 1.25rem;
+}
+#farmer-orders-list .order-card .card-footer button {
+    padding: 0.75rem 1.25rem; /* Standardize button size */
+}
+/* Style the Mark as Shipped button specifically */
+#farmer-orders-list .order-card button[data-action="ship"] {
+    background-color: var(--secondary); /* Green for shipping */
+    border-color: var(--secondary);
+    color: white;
+}
+#farmer-orders-list .order-card button[data-action="ship"]:hover {
+    background-color: #008a5a; /* Darker green */
+    border-color: #008a5a;
+}
+
+/* --- Payouts Page (`page-payouts`) --- */
+/* In farmer.css */
+.payout-summary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important; /* <-- ADD !important HERE */
+    color: white; /* Default text color */
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    margin-bottom: 2rem; /* Adjusted margin */
+}
+.payout-summary h2 {
+    font-size: 2.25rem; /* Larger amount */
+    margin-bottom: 1.25rem;
+}
+.payout-summary button {
+     padding: 0.9rem 1.5rem; /* Standard button size */
+     font-size: 0.95rem;
+}
+
+.transaction-list .transaction-item {
+    padding: 1rem 0; /* More vertical padding */
+}
+.transaction-list .transaction-item div:first-child { /* Text content */
+    flex-grow: 1;
+    padding-right: 1rem; /* Space before amount */
+}
+.transaction-list .transaction-item p { /* Product name */
+    font-size: 0.95rem;
+    font-weight: 600; /* Bolder product name */
+    color: var(--text-primary);
+    margin-bottom: 0.1rem;
+}
+.transaction-list .transaction-item small { /* Date */
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+.transaction-list .transaction-item span { /* Amount */
+    font-size: 1rem;
+    font-weight: 700; /* Bolder amount */
+    color: var(--secondary);
+    white-space: nowrap; /* Prevent amount wrapping */
+}
+
+/* --- General Input Styling Refinements --- */
+input, select {
+    background-color: #FFF; /* Ensure white background */
+    border: 1px solid #D1D5DB; /* Tailwind gray-300 */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+input:focus, select:focus {
+     border-color: var(--primary);
+     box-shadow: 0 0 0 3px rgba(0, 90, 156, 0.2); /* Tailwind blue focus ring */
+     outline: none;
+}
+
+/* --- Tailwind Color Class Fallbacks (if needed, though should work) --- */
+.text-primary { color: var(--primary); }
+.text-danger { color: var(--danger); }
+.text-secondary { color: var(--secondary); }
+.text-gray-500 { color: #6B7280; }
+.text-gray-600 { color: #4B5563; }
+.text-gray-700 { color: #374151; }
+.text-yellow-500 { color: #F59E0B; }
+.text-yellow-600 { color: #D97706; }
+.bg-primary-light { background-color: var(--primary-light); }
+.bg-gray-50 { background-color: #F9FAFB; }
+.border-gray-200 { border-color: #E5E7EB; }
+.border-gray-300 { border-color: #D1D5DB; }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-md { border-radius: var(--radius-md); }
+.hidden { display: none; }

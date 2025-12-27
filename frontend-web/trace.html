@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Traceability</title>
+    
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="trace.css">
+
+</head>
+<body>
+    
+    <main style="max-width: 720px; margin: 2rem auto; padding: 1.5rem;">
+
+        <header style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <hgroup style="margin-bottom: 0;">
+                    <h3 style="margin-bottom: 0.25rem;">Farm-to-Fork Traceability</h3>
+                    <p style="margin-bottom: 0;">Powered by <strong>MilletChain</strong></p>
+                </hgroup>
+                <a href="index.html" role="button" class="secondary" style="margin-bottom: 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 19-7-7 7-7"/><path d="M13 12H3"/></svg>
+                    Back to Store
+                </a>
+            </div>
+        </header>
+
+        <article class="card" style="margin-bottom: 2.5rem;">
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <img src="https://placehold.co/100x100/E6F0F6/005A9C?text=Millet&font=Inter" alt="Product" style="width: 100px; height: 100px; border-radius: 8px;" id="product-image">
+                <hgroup style="margin-bottom: 0; flex-grow: 1;">
+                    <h4 id="product-name" style="margin-bottom: 0.25rem;">(Loading Product...)</h4>
+                    <p style="font-size: 0.9rem;"><strong>Product ID:</strong> <code id="product-id">(Loading...)</code></p>
+                    <p style="font-size: 0.9rem; margin-bottom: 0;"><strong>Seller:</strong> <span id="seller-name">(Loading...)</span></p>
+                </hgroup>
+            </div>
+        </article>
+
+        <hgroup>
+            <h4>Product Journey</h4>
+        </hgroup>
+        
+        <ul class="timeline" id="timeline-container">
+            <li class="timeline-item" data-icon="⏳" style="--item-index: 1;">
+                 <article class="card">
+                    <h5>Loading Journey...</h5>
+                    <p>Connecting to the database...</p>
+                    <small>Please wait...</small>
+                </article>
+            </li>
+        </ul>
+
+        <article class="card" style="margin-top: 2rem; border-color: var(--primary);">
+            <hgroup>
+                <h5 style="color: var(--primary);">Proof on Sepolia Testnet</h5>
+            </hgroup>
+            <p>This product's journey is permanently recorded on the Ethereum blockchain. This guarantees that the data is immutable and cannot be altered by anyone.</p>
+            <p>
+                <strong>Transaction Hash:</strong><br>
+                <code id="etherscan-hash" style="word-wrap: break-word;">(Waiting for transaction...)</code>
+            </p>
+            <a id="etherscan-link" href="#" role="button" class="primary" target="_blank" rel="noopener noreferrer" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>
+                View on Etherscan
+            </a>
+        </article>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="app.js" defer></script>
+    <script src="trace.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+/* ==============================
+   TRACE PAGE STYLES (Enhanced UI)
+   ============================== */
+
+body.trace-page {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--background-light); /* Use global variable */
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.trace-container {
+    max-width: 800px; /* Wider container for better timeline view */
+    margin: 2rem auto;
+    padding: 1.5rem;
+}
+
+code {
+    font-family: 'monospace';
+    background: #e9ecef; /* Lighter code background */
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+    color: #495057; /* Darker gray text */
+    word-break: break-all; /* Allow long hashes to wrap */
+}
+
+/* --- Header --- */
+/* --- Header --- */
+.trace-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    /* No position: relative needed now */
+}
+.trace-header .header-content {
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Push title left, actions right */
+    align-items: center; /* Vertically align items */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 1rem; /* Space between items if they wrap */
+}
+.trace-header hgroup {
+    margin-bottom: 0;
+    flex-grow: 1; /* Allow title group to take space */
+}
+.trace-header h3 {
+    margin-bottom: 0.1rem;
+    color: var(--primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.trace-header p {
+    margin-bottom: 0;
+    color: var(--text-secondary);
+}
+
+/* [!! NEW: Styles for Action Wrapper !!] */
+.trace-header .header-actions {
+    display: flex; /* Arrange switcher and button side-by-side */
+    align-items: center; /* Vertically align them */
+    gap: 1rem; /* Space between switcher and button */
+    flex-shrink: 0; /* Prevent this group from shrinking */
+}
+
+/* Language switcher requires no special CSS now, Tailwind handles it */
+
+
+.trace-header .back-button {
+    padding: 0.6rem 1rem; /* Adjust padding as needed */
+    font-size: 0.9rem;
+    margin: 0; /* Remove any default margins */
+}
+/* --- Product Info Card --- */
+.product-info-card {
+    display: flex;
+    gap: 1.5rem; /* More space */
+    align-items: center;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+.product-info-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.product-info-card hgroup {
+    margin-bottom: 0;
+    flex-grow: 1;
+}
+.product-info-card h4 {
+    margin-bottom: 0.35rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+.product-info-card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+.product-info-card p strong {
+    color: var(--text-primary);
+}
+.product-info-card small { /* For source info */
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+/* --- Timeline Header --- */
+.timeline-header {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+/* --- Timeline --- */
+.timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    /* Space for icons */
+    padding-left: calc(27px + 1.5rem); /* icon center + space */
+}
+
+/* The vertical line */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 27px; /* Aligns with center of icon */
+    top: 25px;   /* Start below first icon's center */
+    bottom: 25px; /* End above last icon's center */
+    width: 3px; /* Slightly thinner line */
+    background: #e2e8f0; /* Tailwind gray-200 */
+    border-radius: 2px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem; /* Increased spacing */
+    animation: fadeInUp 0.5s ease-out both;
+    animation-delay: calc(var(--item-index, 0) * 0.1s);
+}
+
+/* The icon circle */
+.timeline-item::before {
+    content: attr(data-icon);
+    position: absolute;
+    left: calc(-27px - 27px); /* (line pos) - (half icon width) */
+    top: 1rem; /* Adjust vertical alignment */
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--background-card);
+    border: 3px solid #e2e8f0; /* Match line color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem; /* Larger icon */
+    z-index: 1;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.3s ease;
+}
+
+/* Highlight the first/most recent item */
+.timeline-item:first-child::before {
+     border-color: var(--primary); /* Highlight border */
+}
+
+.timeline-item .card {
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease;
+}
+.timeline-item .card:hover {
+     box-shadow: var(--shadow-md);
+}
+
+.timeline-item .card h5 { /* Event Name */
+    color: var(--primary);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.timeline-item .card p { /* Event Details */
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+.timeline-item .card small { /* Timestamp */
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-weight: 500;
+    display: block; /* Ensure it takes its own line if needed */
+    margin-top: 0.5rem; /* Space above timestamp if link exists */
+}
+
+/* Styling for the Source/Processed indicator */
+.timeline-item .card span[style*="Source Material"],
+.timeline-item .card span[style*="Processed Product"] {
+    font-size: 0.75rem !important;
+    font-weight: 600;
+    color: #94a3b8 !important; /* Tailwind slate-400 */
+    display: block;
+    margin-bottom: 0.5rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Blockchain Link styling */
+.blockchain-link {
+    display: inline-block;
+    font-size: 0.8rem; /* Smaller link text */
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+    padding: 0.3rem 0.7rem; /* Adjust padding */
+    border-radius: 20px;
+    background: var(--primary-light);
+    border: 1px solid transparent;
+    margin-right: 0.5rem; /* Space between link and timestamp */
+    transition: all 0.2s ease;
+}
+.blockchain-link:hover {
+    background-color: var(--primary);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary-dark);
+}
+
+/* --- Proof Card --- */
+.proof-card {
+    margin-top: 2.5rem;
+    border-top: 3px solid var(--primary); /* Top border accent */
+    box-shadow: var(--shadow-sm);
+}
+.proof-card h5 {
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+}
+.proof-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+.proof-card .hash-label {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.proof-card .hash-label strong {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+.proof-card #etherscan-link {
+    padding: 0.75rem 1.25rem; /* Standard button size */
+    font-size: 0.95rem;
+}
+.proof-card #etherscan-link[disabled] {
+    background-color: #E5E7EB;
+    border-color: #D1D5DB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7;
+}
+.proof-card #etherscan-link[disabled]:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+
+/* Loading animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.loading-item .card {
+    border-style: dashed;
+}

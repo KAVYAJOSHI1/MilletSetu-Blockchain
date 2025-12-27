@@ -1,0 +1,402 @@
+/* ==============================
+   CONSUMER APP STYLES (Enhanced UI)
+   ============================== */
+
+/* --- General Enhancements --- */
+.app-page {
+    padding: 1.5rem; /* Consistent padding */
+}
+
+h4.uppercase { /* Section headers */
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    margin-top: 0; /* No top margin needed typically on consumer pages */
+}
+
+/* --- Store Page (`page-store`) --- */
+.search-filter-bar { /* Copied from processor.css */
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+.search-filter-bar input[type="search"] {
+    flex-grow: 1;
+    margin-bottom: 0;
+}
+.search-filter-bar button {
+    flex-shrink: 0;
+    padding: 0.75rem;
+    line-height: 1;
+    box-shadow: var(--shadow-sm);
+}
+
+#product-grid {
+    display: grid; /* Use grid for product layout */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 1.25rem; /* Gap between products */
+}
+
+.product-card {
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+.product-card img {
+    width: 100%;
+    height: 180px; /* Consistent image height */
+    object-fit: cover;
+    display: block;
+    background-color: #eee; /* Placeholder bg */
+}
+.product-card .content {
+    padding: 1rem 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column; /* Ensure content stacks vertically */
+}
+.product-card hgroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align title and badge */
+    margin-bottom: 0.25rem;
+}
+.product-card h4 {
+    font-size: 1.05rem; /* Slightly larger product name */
+    font-weight: 600;
+    margin: 0;
+    flex-grow: 1; /* Allow title to take space */
+    padding-right: 0.5rem; /* Space before badge */
+}
+.product-card .badge { /* Style badges for Processed/Raw */
+     flex-shrink: 0;
+     padding: 0.2rem 0.6rem;
+     font-size: 0.7rem;
+     margin-top: 2px; /* Align better with title */
+}
+.product-card .badge.warning { background-color: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; } /* Tailwind amber */
+.product-card .badge.primary { background-color: var(--primary-light); color: var(--primary-dark); border: 1px solid #BAE6FD; } /* Tailwind sky */
+
+.product-card .seller-info {
+    font-size: 0.8rem; /* Smaller seller info */
+    color: var(--text-light);
+    margin-bottom: 0.75rem;
+}
+.product-card .price-info {
+    font-size: 1.2rem; /* Prominent price */
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: auto; /* Push price towards the bottom */
+    margin-bottom: 1rem; /* Space above footer */
+}
+.product-card .price-info small {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+.product-card footer {
+    padding: 0 1.25rem 1.25rem 1.25rem; /* Remove top padding */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+.product-card footer button,
+.product-card footer a[role="button"] {
+    padding: 0.75rem 1rem; /* Standard button size */
+    font-size: 0.9rem;
+}
+
+
+/* --- Cart Page (`page-cart`) --- */
+#cart-items-container.card { /* Style when items exist */
+    padding: 0; /* Remove padding from card */
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1.5rem;
+}
+.cart-item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.cart-item:last-child {
+    border-bottom: 0;
+}
+.cart-item img {
+    width: 50px; /* Slightly smaller image */
+    height: 50px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+}
+.cart-item .info {
+    flex-grow: 1;
+    min-width: 0; /* Prevent overflow */
+}
+.cart-item .info h5 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 0.1rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.cart-item .info p { /* Seller info */
+    font-size: 0.8rem;
+    margin: 0;
+    color: var(--text-light);
+}
+.cart-item .price {
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: right;
+    white-space: nowrap; /* Keep price on one line */
+    color: var(--text-primary);
+}
+.cart-item .price small { /* Quantity/Unit */
+    display: block;
+    color: var(--text-light);
+    font-weight: 400;
+    font-size: 0.8rem;
+    margin-top: 2px;
+}
+.cart-item .info .remove-from-cart-btn {
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: var(--danger);
+    padding: 0.25rem 0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    display: inline-flex; /* Use flex for icon alignment */
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+}
+.cart-item .info .remove-from-cart-btn:hover {
+    text-decoration: underline;
+}
+.cart-item .info .remove-from-cart-btn svg {
+    stroke: var(--danger);
+    width: 14px;
+    height: 14px;
+}
+
+.cart-summary {
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 1.25rem;
+}
+.cart-summary .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem; /* Slightly smaller */
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+}
+.cart-summary .summary-row span:last-child {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+.cart-summary .summary-row.total {
+    font-weight: 700;
+    font-size: 1.1rem; /* Slightly larger total */
+    color: var(--text-primary);
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--border-color);
+    margin-top: 0.5rem;
+}
+.cart-summary button { /* Checkout Button */
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.9rem 1.5rem; /* Standard button size */
+    font-size: 0.95rem;
+}
+
+
+/* --- Orders Page (`page-orders`) --- */
+.order-history-item {
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+    transition: box-shadow 0.2s ease;
+}
+.order-history-item:hover {
+    box-shadow: var(--shadow-md);
+}
+.order-history-item hgroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align title and badge better */
+    margin-bottom: 0.5rem;
+}
+.order-history-item h5 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    flex-grow: 1;
+    padding-right: 0.5rem;
+}
+.order-history-item .badge {
+    margin-top: 2px;
+}
+.order-history-item p {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+.order-history-item p strong {
+    color: var(--text-secondary); /* Slightly darker labels */
+}
+.order-history-item p:last-of-type { /* Price line */
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 0.75rem;
+    margin-bottom: 1rem; /* Space above footer */
+}
+.order-history-item footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column; /* Stack buttons */
+    gap: 0.5rem;
+}
+.order-history-item footer button,
+.order-history-item footer a[role="button"] {
+     width: 100%;
+     padding: 0.75rem 1rem;
+     font-size: 0.9rem;
+}
+/* Style Confirm Delivery button */
+.order-history-item footer button.primary {
+    background-color: var(--secondary); /* Green for confirm */
+    border-color: var(--secondary);
+}
+.order-history-item footer button.primary:hover {
+     background-color: #008a5a;
+     border-color: #008a5a;
+}
+
+/* --- Profile Page (`page-profile`) --- */
+.wallet-card { /* Copied from processor.css */
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 1.5rem; /* Ensure consistent spacing */
+}
+.wallet-card p {
+    font-size: 0.9rem; /* Smaller label */
+    color: rgba(255, 255, 255, 0.8);
+    opacity: 1; /* Reset opacity if needed */
+    margin: 0;
+}
+.wallet-card h2 {
+    font-size: 2.25rem; /* Match processor */
+    font-weight: 700;
+    color: white;
+    margin: 0.5rem 0 1.25rem 0;
+}
+.wallet-card button { /* Add Money Button */
+    background: rgba(255,255,255,0.9);
+    color: var(--primary-dark);
+    border: none;
+    padding: 0.9rem 1rem;
+    font-size: 0.95rem;
+    width: 100%;
+    box-shadow: none;
+}
+.wallet-card button:hover {
+    background: white;
+    transform: none;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Profile details styling (copied from processor.css) */
+.profile-details dt {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-top: 0.75rem;
+    margin-bottom: 0.1rem;
+}
+.profile-details dd {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-left: 0;
+    margin-bottom: 0.5rem;
+}
+/* Edit Profile button */
+#page-profile .card button.secondary {
+    padding: 0.9rem 1rem; /* Standard size */
+    font-size: 0.95rem;
+    margin-top: 1rem; /* Space above button */
+}
+
+/* --- Cart Badge --- */
+.cart-badge {
+    position: absolute;
+    top: 2px; /* Adjust position */
+    right: 18px; /* Adjust position */
+    background-color: var(--danger);
+    color: white;
+    font-size: 10px;
+    font-weight: 700; /* Bolder */
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    border: 1px solid white; /* Add border for contrast */
+}
+
+/* --- Empty States (Generic) --- */
+.empty-state { /* Reusable empty state style */
+    background-color: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+.empty-state svg {
+    height: 40px;
+    width: 40px;
+    color: #cbd5e1;
+    margin: 0 auto 0.75rem auto;
+}
+.empty-state p:first-of-type {
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+.empty-state p:last-of-type {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 0;
+}

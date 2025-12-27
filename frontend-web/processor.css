@@ -1,0 +1,333 @@
+/* ================================
+   PROCESSOR APP STYLES (Enhanced UI)
+   ================================ */
+
+/* --- General Page Styling --- */
+.app-page {
+    /* Consistent padding */
+    padding: 1.5rem;
+}
+
+h4.uppercase { /* Section headers */
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+h4.uppercase:first-of-type {
+    margin-top: 0;
+}
+
+/* --- Sourcing Page (`page-sourcing`) --- */
+.search-filter-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+.search-filter-bar input[type="search"] {
+    flex-grow: 1;
+    margin-bottom: 0; /* Remove default margin */
+}
+.search-filter-bar button {
+    flex-shrink: 0;
+    padding: 0.75rem; /* Make icon button square-ish */
+    line-height: 1; /* Ensure icon centers vertically */
+    box-shadow: var(--shadow-sm);
+}
+
+.product-card.b2b-card {
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden; /* Ensure image corners are clipped */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.product-card.b2b-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+.product-card.b2b-card img {
+    width: 100%;
+    height: 160px; /* Adjust height as needed */
+    object-fit: cover;
+    display: block;
+}
+.product-card.b2b-card .content {
+    padding: 1rem 1.25rem; /* Adjust padding */
+}
+.product-card.b2b-card hgroup h4 {
+    font-size: 1.1rem; /* Slightly larger title */
+    margin-bottom: 0.1rem;
+}
+.product-card.b2b-card .seller-info {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 0.75rem; /* Space below seller */
+}
+.product-card.b2b-card .details .badges {
+    margin-bottom: 0.5rem;
+}
+.product-card.b2b-card .details .availability {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+.product-card.b2b-card .details .price-info {
+    font-size: 1.25rem; /* Larger price */
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 0.5rem;
+}
+.product-card.b2b-card .details .price-info small {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+.product-card.b2b-card footer {
+    padding: 1rem 1.25rem;
+    background-color: #F9FAFB; /* Slightly off-white footer */
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between; /* Space out buttons */
+    align-items: center;
+    gap: 0.75rem;
+}
+.product-card.b2b-card footer button,
+.product-card.b2b-card footer a[role="button"] {
+    flex-basis: 48%; /* Roughly half width each */
+    text-align: center;
+    padding: 0.75rem 1rem; /* Adjust button padding */
+    font-size: 0.9rem;
+}
+
+/* --- Inventory Page (`page-inventory`) --- */
+#inventory-list .inventory-item {
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+#inventory-list .inventory-item h5 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+#inventory-list .inventory-item p {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+}
+#inventory-list .inventory-item p:last-of-type { /* Quantity */
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0;
+}
+
+/* --- Add Product Page (`page-addproduct`) --- */
+#page-addproduct .card {
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+#page-addproduct label {
+    margin-bottom: 0.4rem;
+}
+#page-addproduct input, #page-addproduct select {
+    margin-bottom: 1rem; /* Ensure consistent bottom margin */
+}
+#page-addproduct form > *:last-child { /* Status message div */
+     margin-bottom: 0;
+}
+
+/* My Listed Products & Incoming Orders share similar card styles */
+#my-products-list .my-product-item,
+#incoming-orders-list .order-card {
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease;
+}
+#my-products-list .my-product-item:hover,
+#incoming-orders-list .order-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* My Listed Products specific */
+#my-products-list .my-product-item h5 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+#my-products-list .my-product-item p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+#my-products-list .my-product-item footer button,
+#my-products-list .my-product-item footer a {
+    padding: 0.5rem 0.8rem; /* Smaller footer buttons */
+    font-size: 0.8rem;
+}
+#my-products-list .my-product-item footer button.danger {
+     background-color: var(--danger);
+     border-color: var(--danger);
+     color: white;
+}
+#my-products-list .my-product-item footer button.danger:hover {
+     background-color: #c0392b; /* Darker red */
+     border-color: #c0392b;
+}
+
+
+/* Incoming Orders specific */
+#incoming-orders-list .order-card .p-4 {
+    padding: 1rem;
+}
+#incoming-orders-list .order-card img {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+}
+#incoming-orders-list .order-card h5 {
+    font-size: 1rem;
+}
+#incoming-orders-list .order-card p {
+    font-size: 0.85rem;
+}
+#incoming-orders-list .order-card .card-footer {
+     background-color: #F9FAFB;
+     padding: 0.75rem 1rem;
+     border-top: 1px solid var(--border-color);
+}
+#incoming-orders-list .order-card .card-footer button {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+}
+/* Style Mark as Shipped button */
+#incoming-orders-list .order-card button[data-action="ship"] {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+    color: white;
+}
+#incoming-orders-list .order-card button[data-action="ship"]:hover {
+    background-color: #008a5a;
+    border-color: #008a5a;
+}
+
+
+/* --- My Bulk Orders Page (`page-orders`) --- */
+/* Uses .order-history-item from global? If not, style similarly to incoming orders */
+#my-bulk-orders-list .order-history-item {
+     border: 1px solid var(--border-color);
+     box-shadow: var(--shadow-md);
+     transition: box-shadow 0.2s ease;
+}
+#my-bulk-orders-list .order-history-item:hover {
+     box-shadow: var(--shadow-lg);
+}
+#my-bulk-orders-list .order-history-item .p-4 {
+     padding: 1.25rem;
+}
+#my-bulk-orders-list .order-history-item h5 {
+     font-size: 1.05rem;
+     font-weight: 600;
+}
+#my-bulk-orders-list .order-history-item p {
+     font-size: 0.9rem;
+}
+#my-bulk-orders-list .order-history-item footer {
+     padding: 1rem 1.25rem;
+     background-color: #F9FAFB;
+     border-top: 1px solid var(--border-color);
+     display: flex; /* Ensure buttons stack or align correctly */
+     flex-direction: column; /* Stack Trace & Confirm buttons */
+     gap: 0.5rem;
+}
+#my-bulk-orders-list .order-history-item footer button,
+#my-bulk-orders-list .order-history-item footer a {
+     width: 100%;
+     padding: 0.75rem 1rem;
+     font-size: 0.9rem;
+}
+
+
+/* --- Profile Page (`page-profile`) --- */
+.payout-summary { /* Reusing farmer style */
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.payout-summary p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.25rem;
+}
+.payout-summary h2 {
+    font-size: 2.25rem;
+    margin-bottom: 1.25rem;
+}
+.payout-summary button {
+     padding: 0.9rem 1rem; /* Standard button size */
+     font-size: 0.95rem;
+}
+.payout-summary #withdraw-btn { /* Style withdraw button differently */
+     background-color: rgba(255, 255, 255, 0.2);
+     color: white;
+     border: 1px solid rgba(255, 255, 255, 0.5);
+     box-shadow: none;
+}
+.payout-summary #withdraw-btn:hover {
+     background-color: rgba(255, 255, 255, 0.3);
+     border-color: white;
+     transform: none;
+     box-shadow: var(--shadow-sm);
+}
+
+.profile-details dt { /* Definition term (label) */
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-top: 0.75rem;
+    margin-bottom: 0.1rem;
+}
+.profile-details dd { /* Definition description (value) */
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-left: 0; /* Remove default indent */
+    margin-bottom: 0.5rem;
+}
+
+/* Transaction List Styling (copied from farmer.css) */
+.transaction-list .transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0; /* More vertical padding */
+    border-bottom: 1px solid var(--border-color);
+}
+.transaction-list .transaction-item:last-child { border-bottom: none; padding-bottom: 0; }
+.transaction-list .transaction-item:first-child { padding-top: 0; }
+
+.transaction-list .transaction-item div:first-child { /* Text content */
+    flex-grow: 1;
+    padding-right: 1rem;
+}
+.transaction-list .transaction-item p { /* Title */
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.1rem;
+}
+.transaction-list .transaction-item small { /* Date */
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+.transaction-list .transaction-item span { /* Amount */
+    font-size: 1rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+/* Color amounts based on type (JS should handle adding text-secondary/text-danger) */
+.transaction-list .transaction-item .text-secondary { color: var(--secondary); }
+.transaction-list .transaction-item .text-danger { color: var(--danger); }
